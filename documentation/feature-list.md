@@ -1,11 +1,13 @@
 # Feature List
 
-**HomePage**
+## MVP
+
+### HomePage
 
 * Cards of different projects
 * Feature to add a new project
 
-**Projects**
+### Projects
 
 * Card for Message Board
   * List of discussions(like a mini forum)
@@ -16,11 +18,11 @@
 * Schedule / Calendar
   * use some kind of calendar api to display calendar and link to To-do List
 
-**Users**
+### Users
 
 * Creation of user
 * Demo user
-* All users can create projects
+* All users can create projects / message boards / to-do list
 
 ## Bonus
 
