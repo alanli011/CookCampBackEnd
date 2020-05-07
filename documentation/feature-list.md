@@ -2,18 +2,19 @@
 
 **HomePage**
 
+* Cards of different projects
+* Feature to add a new project
+
+**Projects**
+
 * Card for Message Board
-  * List of messages
-  * Individual messages will have a comments text area
+  * List of discussions(like a mini forum)
+  * Individual discussion topics will have a comments text area
 * Card for To-Do List
   * Input field to allow users to add to do lists
   * Functionality to check off tasks that are complete.
 * Schedule / Calendar
   * use some kind of calendar api to display calendar and link to To-do List
-
-**Projects**
-
-* Feature to add a new project and have more than one user join
 
 **Users**
 
@@ -24,3 +25,7 @@
 ## Bonus
 
 * Use sockets.io for messaging system
+* Notifications for new discussion from message board
+  * Activity section
+  * Show recent activity
+* Add emoji reactions to comments section
