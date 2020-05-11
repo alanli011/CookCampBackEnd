@@ -15,8 +15,6 @@
 * Card for To-Do List
   * Input field to allow users to add to do lists
   * Functionality to check off tasks that are complete.
-* Schedule / Calendar
-  * use some kind of calendar api to display calendar and link to To-do List
 
 ### Users
 
@@ -31,3 +29,5 @@
   * Activity section
   * Show recent activity
 * Add emoji reactions to comments section
+* Schedule / Calendar
+  * use some kind of calendar api to display calendar and link to To-do List
