@@ -15,7 +15,9 @@ const validateEmailAndPassword = [
 	check('email').exists({ checkFalsy: true }).isEmail().withMessage('Please provide a valid email.'),
 	check('password').exists({ checkFalsy: true }).withMessage('Please provide a password.')
 ];
+const validatePassword = [ check('password').exists({ checkFalsy: true }).withMessage('Please provide a password.') ];
 
+// create user
 router.post(
 	'/',
 	validateUsername,
@@ -40,12 +42,45 @@ router.post(
 	})
 );
 
+//authenticate
+router.post(
+	'/token',
+	asyncHandler(async (req, res, next) => {
+		const { email, password } = req.body;
+		const user = await User.findOne({
+			where: {
+				email
+			}
+		});
+		//pass validate and error handling
+		if (!user || !user.validatePassword(password)) {
+			const err = new Error('Login failed');
+			err.status = 401;
+			err.title = 'Login failed';
+			err.errors = [ 'The provided credentials were invalid.' ];
+			return next(err);
+		}
+		//login successful
+		const token = getUserToken(user);
+		res.json({ token, user: { id: user.id } });
+	})
+);
+
+// Gets all user
+router.get(
+	'/',
+	asyncHandler(async (req, res) => {
+		const users = await User.findAll();
+		res.json({ users });
+	})
+);
+
 router.get(
 	'/:id(\\d+)',
+	// requireAuth,
 	asyncHandler(async (req, res) => {
-		console.log(req.body);
 		const user = await User.findByPk(req.params.id, {
-			attributes: [ 'id', 'userName', 'firstName', 'lastName' ]
+			attributes: [ 'id', 'userName', 'firstName', 'lastName', 'email' ]
 		});
 		res.json({ user });
 	})
