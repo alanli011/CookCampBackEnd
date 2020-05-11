@@ -2,6 +2,7 @@ const express = require('express');
 const { asyncHandler, handleValidationErrors } = require('../utils/utils');
 const { check } = require('express-validator');
 const bcrypt = require('bcryptjs');
+const { User } = require('../db/models');
 
 const { getUserToken, requireAuth } = require('../utils/auth.js');
 
@@ -36,6 +37,17 @@ router.post(
 			user: { id: user.id },
 			token
 		});
+	})
+);
+
+router.get(
+	'/:id(\\d+)',
+	asyncHandler(async (req, res) => {
+		console.log(req.body);
+		const user = await User.findByPk(req.params.id, {
+			attributes: [ 'id', 'userName', 'firstName', 'lastName' ]
+		});
+		res.json({ user });
 	})
 );
 
