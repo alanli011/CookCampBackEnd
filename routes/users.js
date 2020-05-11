@@ -23,16 +23,19 @@ router.post(
 	asyncHandler(async (req, res) => {
 		const { userName, firstName, lastName, email, password } = req.body;
 		const hashedPass = await bcrypt.hash(password, 10);
-		// const user = await User.create({
-		//     userName, firstName, lastName, email,
-		//     hashedPass, revScore, statusTypeId: parseInt(statusTypeId)
-		// });
+		const user = await User.create({
+			userName,
+			firstName,
+			lastName,
+			email,
+			hashedPass
+		});
 
-		// const token = getUserToken(user);
-		// res.status(201).json({
-		//     user: { id: user.id },
-		//     token,
-		// });
+		const token = getUserToken(user);
+		res.status(201).json({
+			user: { id: user.id },
+			token
+		});
 	})
 );
 
