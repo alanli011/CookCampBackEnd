@@ -8,14 +8,29 @@ const Op = Sequelize.Op;
 
 const router = express.Router();
 
-router.post('/', asyncHandler(async (req, res) => {}));
+//create a new project
+router.post(
+	'/',
+	// requireAuth,
+	asyncHandler(async (req, res) => {
+		const project = await Project.create({ ...req.body });
+		console.log(project.toJSON());
+		res.status(201).json({
+			projects: {
+				id: project.id,
+				projectName: project.projectName
+			}
+		});
+	})
+);
 
 // returns a list of all the projects
 router.get(
 	'/',
+	// requireAuth,
 	asyncHandler(async (req, res) => {
 		const projects = await Project.findAll({
-			attributes: [ 'projectName', 'projectDescription' ],
+			attributes: [ 'id', 'projectName', 'projectDescription' ],
 			include: [
 				{
 					model: User
@@ -23,6 +38,33 @@ router.get(
 			]
 		});
 		res.json({ projects });
+	})
+);
+
+router.get(
+	'/:id(\\d+)',
+	// requireAuth,
+	asyncHandler(async (req, res) => {
+		const project = await Project.findByPk(req.params.id);
+		res.json({
+			project: {
+				id: project.id,
+				projectName: project.projectName,
+				projectDescription: project.projectDescription
+			}
+		});
+	})
+);
+
+router.delete(
+	'/:id(\\d+)',
+	// requireAuth,
+	asyncHandler(async (req, res) => {
+		const project = await Project.findByPk(req.params.id, {
+			attributes: [ 'id' ]
+		});
+		await project.destroy();
+		res.end();
 	})
 );
 
