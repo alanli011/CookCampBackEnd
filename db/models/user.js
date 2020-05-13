@@ -32,7 +32,12 @@ module.exports = (sequelize, DataTypes) => {
 		{}
 	);
 	User.associate = function(models) {
-		// associations can be defined here
+		const columnMapping = {
+			through: 'UserProject',
+			otherKey: 'projectId',
+			foreignKey: 'userId'
+		};
+		User.belongsToMany(models.Project, columnMapping);
 	};
 
 	//instance methods

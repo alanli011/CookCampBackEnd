@@ -7,6 +7,7 @@ const { environment } = require('./config');
 //routers
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
+const projectsRouter = require('./routes/projects');
 
 const app = express();
 
@@ -17,6 +18,7 @@ app.use(cors({ origin: 'http://localhost:3000' })); //change path to host-addres
 //mount routes
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/projects', projectsRouter);
 
 // Catch unhandled requests and forward to error handler.
 app.use((req, res, next) => {
