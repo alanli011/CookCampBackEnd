@@ -1,7 +1,7 @@
 const express = require('express');
 const { asyncHandler, handleValidationErrors } = require('../utils/utils');
 const bcrypt = require('bcryptjs');
-const { User, Project } = require('../db/models');
+const { User, Project, UserProject } = require('../db/models');
 const { requireAuth } = require('../utils/auth.js');
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
@@ -30,12 +30,7 @@ router.get(
 	// requireAuth,
 	asyncHandler(async (req, res) => {
 		const projects = await Project.findAll({
-			attributes: [ 'id', 'projectName', 'projectDescription' ],
-			include: [
-				{
-					model: User
-				}
-			]
+			attributes: [ 'id', 'projectName', 'projectDescription' ]
 		});
 		res.json({ projects });
 	})
