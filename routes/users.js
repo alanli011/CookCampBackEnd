@@ -2,7 +2,7 @@ const express = require('express');
 const { asyncHandler, handleValidationErrors } = require('../utils/utils');
 const { check } = require('express-validator');
 const bcrypt = require('bcryptjs');
-const { User } = require('../db/models');
+const { User, Project, UserProject } = require('../db/models');
 
 const { getUserToken, requireAuth } = require('../utils/auth.js');
 
@@ -83,6 +83,44 @@ router.get(
 			attributes: [ 'id', 'userName', 'firstName', 'lastName', 'email' ]
 		});
 		res.json({ user });
+	})
+);
+
+router.get(
+	'/:id(\\d+)/projects',
+	// requireAuth,
+	asyncHandler(async (req, res) => {
+		const projects = await User.findByPk(req.params.id, {
+			attributes: [ 'id' ],
+			include: [
+				{
+					model: Project
+				}
+			]
+		});
+		res.json({ projects });
+	})
+);
+
+router.post(
+	'/:id(\\d+)/projects',
+	// requireAuth,
+	asyncHandler(async (req, res) => {
+		const user = await User.findByPk(req.params.id, {
+			attributes: [ 'id' ]
+		});
+
+		console.log(req.body);
+		const project = await Project.create({ ...req.body });
+		await UserProject.create({ userId: user.id, projectId: project.id });
+		res.status(201).json({
+			user,
+			// projects: {
+			// 	id: project.id,
+			// 	projectName: project.projectName
+			// }
+			project
+		});
 	})
 );
 
