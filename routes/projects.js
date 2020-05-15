@@ -72,7 +72,11 @@ router.get(
 	'/:id(\\d+)/messages',
 	// requireAuth,
 	asyncHandler(async (req, res) => {
-		const messages = await Message.findAll();
+		const messages = await Message.findAll({
+			where: {
+				projectId: req.params.id
+			}
+		});
 		res.json({ messages });
 	})
 );
