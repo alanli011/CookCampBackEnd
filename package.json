@@ -7,7 +7,7 @@
 		"backend": "www.js"
 	},
 	"scripts": {
-		"start": "node ./app.js",
+		"start": "per-env",
 		"start:development": "nodemon -r dotenv/config ./bin/www",
 		"start:production": "node ./bin/www"
 	},
