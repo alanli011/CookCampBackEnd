@@ -115,10 +115,6 @@ router.post(
 		await UserProject.create({ userId: user.id, projectId: project.id });
 		res.status(201).json({
 			user,
-			// projects: {
-			// 	id: project.id,
-			// 	projectName: project.projectName
-			// }
 			project
 		});
 	})

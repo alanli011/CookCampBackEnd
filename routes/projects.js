@@ -40,14 +40,14 @@ router.get(
 	'/:id(\\d+)',
 	// requireAuth,
 	asyncHandler(async (req, res) => {
-		const project = await Project.findByPk(req.params.id);
-		res.json({
-			project: {
-				id: project.id,
-				projectName: project.projectName,
-				projectDescription: project.projectDescription
-			}
+		const project = await Project.findByPk(req.params.id, {
+			include: [
+				{
+					model: User
+				}
+			]
 		});
+		res.json({ project });
 	})
 );
 

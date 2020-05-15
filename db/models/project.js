@@ -20,6 +20,8 @@ module.exports = (sequelize, DataTypes) => {
 			foreignKey: 'projectId'
 		};
 		Project.belongsToMany(models.User, columnMapping);
+		Project.hasMany(models.Message, { foreignKey: 'projectId' });
+		Project.hasMany(models.ToDo, { foreignKey: 'projectId' });
 	};
 	return Project;
 };
