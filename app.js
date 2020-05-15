@@ -13,7 +13,7 @@ const app = express();
 
 app.use(morgan('dev'));
 app.use(express.json());
-app.use(cors({ origin: 'http://localhost:3000' })); //change path to host-address when acquired
+app.use(cors({ origin: true })); //change path to host-address when acquired
 
 //mount routes
 app.use('/', indexRouter);
