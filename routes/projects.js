@@ -75,7 +75,8 @@ router.get(
 		const messages = await Message.findAll({
 			where: {
 				projectId: req.params.id
-			}
+			},
+			order: [ [ 'updatedAt', 'DESC' ] ]
 		});
 		res.json({ messages });
 	})
@@ -112,7 +113,8 @@ router.get(
 		const toDos = await ToDo.findAll({
 			where: {
 				projectId: req.params.id
-			}
+			},
+			order: [ [ 'updatedAt', 'DESC' ] ]
 		});
 		res.json({ toDos });
 	})
