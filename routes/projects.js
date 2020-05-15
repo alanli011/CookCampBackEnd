@@ -103,4 +103,42 @@ router.delete(
 		res.end();
 	})
 );
+
+// finds all todos
+router.get(
+	'/:id(\\d+)/to-do',
+	// requireAuth,
+	asyncHandler(async (req, res) => {
+		const toDos = await ToDo.findAll({
+			where: {
+				projectId: req.params.id
+			}
+		});
+		res.json({ toDos });
+	})
+);
+
+// finds one specific message
+router.get(
+	'/:todo_id/to-do/:id',
+	// requireAuth,
+	asyncHandler(async (req, res) => {
+		const toDo = await ToDo.findByPk(req.params.id);
+		res.json({ toDo });
+	})
+);
+
+// deletes message
+router.delete(
+	'/:todo_id/to-do/:id',
+	// requireAuth,
+	asyncHandler(async (req, res) => {
+		const toDo = await ToDo.findByPk(req.params.id, {
+			attributes: [ 'id' ]
+		});
+		await toDo.destroy();
+		res.end();
+	})
+);
+
 module.exports = router;
