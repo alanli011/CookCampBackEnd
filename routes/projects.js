@@ -1,7 +1,7 @@
 const express = require('express');
 const { asyncHandler, handleValidationErrors } = require('../utils/utils');
 const bcrypt = require('bcryptjs');
-const { User, Project, UserProject } = require('../db/models');
+const { User, Project, UserProject, Message, ToDo, Comment, ToDoItem } = require('../db/models');
 const { requireAuth } = require('../utils/auth.js');
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
@@ -36,6 +36,7 @@ router.get(
 	})
 );
 
+// returns a specific project
 router.get(
 	'/:id(\\d+)',
 	// requireAuth,
@@ -51,6 +52,7 @@ router.get(
 	})
 );
 
+// deletes a project
 router.delete(
 	'/:id(\\d+)',
 	// requireAuth,
@@ -59,6 +61,84 @@ router.delete(
 			attributes: [ 'id' ]
 		});
 		await project.destroy();
+		res.end();
+	})
+);
+
+// message board routes
+
+// finds all messages
+router.get(
+	'/:id(\\d+)/messages',
+	// requireAuth,
+	asyncHandler(async (req, res) => {
+		const messages = await Message.findAll({
+			where: {
+				projectId: req.params.id
+			},
+			order: [ [ 'updatedAt', 'DESC' ] ]
+		});
+		res.json({ messages });
+	})
+);
+
+// finds one specific message
+router.get(
+	'/:project_id/messages/:id',
+	// requireAuth,
+	asyncHandler(async (req, res) => {
+		const message = await Message.findByPk(req.params.id);
+		res.json({ message });
+	})
+);
+
+// deletes message
+router.delete(
+	'/:project_id/messages/:id',
+	// requireAuth,
+	asyncHandler(async (req, res) => {
+		const message = await Message.findByPk(req.params.id, {
+			attributes: [ 'id' ]
+		});
+		await message.destroy();
+		res.end();
+	})
+);
+
+// finds all todos
+router.get(
+	'/:id(\\d+)/to-do',
+	// requireAuth,
+	asyncHandler(async (req, res) => {
+		const toDos = await ToDo.findAll({
+			where: {
+				projectId: req.params.id
+			},
+			order: [ [ 'updatedAt', 'DESC' ] ]
+		});
+		res.json({ toDos });
+	})
+);
+
+// finds one specific message
+router.get(
+	'/:todo_id/to-do/:id',
+	// requireAuth,
+	asyncHandler(async (req, res) => {
+		const toDo = await ToDo.findByPk(req.params.id);
+		res.json({ toDo });
+	})
+);
+
+// deletes message
+router.delete(
+	'/:todo_id/to-do/:id',
+	// requireAuth,
+	asyncHandler(async (req, res) => {
+		const toDo = await ToDo.findByPk(req.params.id, {
+			attributes: [ 'id' ]
+		});
+		await toDo.destroy();
 		res.end();
 	})
 );

@@ -75,6 +75,7 @@ router.get(
 	})
 );
 
+// Gets one user
 router.get(
 	'/:id(\\d+)',
 	// requireAuth,
@@ -86,6 +87,7 @@ router.get(
 	})
 );
 
+// Gets all the projects for that one user
 router.get(
 	'/:id(\\d+)/projects',
 	// requireAuth,
@@ -102,6 +104,7 @@ router.get(
 	})
 );
 
+// create a project for that one user
 router.post(
 	'/:id(\\d+)/projects',
 	// requireAuth,
