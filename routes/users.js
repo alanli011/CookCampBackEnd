@@ -113,7 +113,6 @@ router.post(
 			attributes: [ 'id' ]
 		});
 
-		console.log(req.body);
 		const project = await Project.create({ ...req.body });
 		await UserProject.create({ userId: user.id, projectId: project.id });
 		res.status(201).json({

@@ -82,6 +82,16 @@ router.get(
 	})
 );
 
+router.post(
+	'/:id(\\d+)/messages',
+	// requireAuth,
+	asyncHandler(async (req, res) => {
+		const message = await Message.create({ ...req.body });
+		console.log(message);
+		res.status(201).json({ message });
+	})
+);
+
 // finds one specific message
 router.get(
 	'/:project_id/messages/:id',
