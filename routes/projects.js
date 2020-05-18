@@ -124,15 +124,52 @@ router.get(
 			where: {
 				projectId: req.params.id
 			},
-			order: [ [ 'updatedAt', 'DESC' ] ]
+			order: [ [ 'updatedAt', 'DESC' ] ],
+			include: [
+				{
+					model: ToDoItem
+				}
+			]
 		});
 		res.json({ toDos });
 	})
 );
 
-// finds all to do item that matches
+// create a new to do list
+router.post(
+	'/:id(\\d+)/to-do',
+	// requireAuth,
+	asyncHandler(async (req, res) => {
+		const toDo = await ToDo.create({ ...req.body });
+		res.status(201).json({ toDo });
+	})
+);
+
+// find single to do from list
 router.get(
-	'/:project_id/to-do/:id(\\d+)',
+	'/:project_id/to-do/:id',
+	// requireAuth,
+	asyncHandler(async (req, res) => {
+		const toDo = await ToDo.findByPk(req.params.id);
+		res.json({ toDo });
+	})
+);
+
+// finds all the to do items
+router.get(
+	'/:project_id/to-do/item',
+	// requireAuth,
+	asyncHandler(async (req, res) => {
+		const item = await ToDoItem.findAll({
+			order: [ [ 'updatedAt', 'DESC' ] ]
+		});
+		res.json({ item });
+	})
+);
+
+// finds all to do item that matches the params id
+router.get(
+	'/:project_id/to-do/item/:id(\\d+)',
 	// requireAuth,
 	asyncHandler(async (req, res) => {
 		const item = await ToDoItem.findAll({
