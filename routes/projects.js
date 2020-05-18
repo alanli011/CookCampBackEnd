@@ -130,7 +130,22 @@ router.get(
 	})
 );
 
-// finds one specific message
+// finds all to do item that matches
+router.get(
+	'/:project_id/to-do/:id(\\d+)',
+	// requireAuth,
+	asyncHandler(async (req, res) => {
+		const item = await ToDoItem.findAll({
+			where: {
+				toDoId: req.params.id
+			},
+			order: [ [ 'updatedAt', 'DESC' ] ]
+		});
+		res.json({ item });
+	})
+);
+
+// finds one specific to do
 router.get(
 	'/:todo_id/to-do/:id',
 	// requireAuth,
@@ -140,7 +155,7 @@ router.get(
 	})
 );
 
-// deletes message
+// deletes to do
 router.delete(
 	'/:todo_id/to-do/:id',
 	// requireAuth,
