@@ -23,7 +23,7 @@ module.exports = (sequelize, DataTypes) => {
 		{}
 	);
 	ToDoItem.associate = function(models) {
-		ToDoItem.belongsTo(models.ToDo, { foreigKey: 'toDoId' });
+		ToDoItem.belongsTo(models.ToDo, { foreignKey: 'toDoId' });
 	};
 	return ToDoItem;
 };
