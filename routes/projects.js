@@ -131,6 +131,15 @@ router.get(
 	})
 );
 
+router.post(
+	'/:project_id/messages/:message_id/comments',
+	// requireAuth,
+	asyncHandler(async (req, res) => {
+		const comment = await Comment.create({ ...req.body });
+		res.status(201).json({ comment });
+	})
+);
+
 // finds all todos
 router.get(
 	'/:id(\\d+)/to-do',
