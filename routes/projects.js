@@ -115,6 +115,31 @@ router.delete(
 	})
 );
 
+// routes for comments
+// gets all comments for specific message id
+router.get(
+	'/:project_id/messages/:message_id/comments',
+	// requireAuth,
+	asyncHandler(async (req, res) => {
+		const comments = await Comment.findAll({
+			where: {
+				messageId: req.params.message_id
+			},
+			order: [ [ 'updatedAt', 'DESC' ] ]
+		});
+		res.json({ comments });
+	})
+);
+
+router.post(
+	'/:project_id/messages/:message_id/comments',
+	// requireAuth,
+	asyncHandler(async (req, res) => {
+		const comment = await Comment.create({ ...req.body });
+		res.status(201).json({ comment });
+	})
+);
+
 // finds all todos
 router.get(
 	'/:id(\\d+)/to-do',
@@ -194,22 +219,22 @@ router.post(
 
 // finds one specific to do
 router.get(
-	'/:todo_id/to-do/:id',
+	'/:project_id/to-do/item/:toDoId/:id',
 	// requireAuth,
 	asyncHandler(async (req, res) => {
-		const toDo = await ToDo.findByPk(req.params.id);
+		const toDo = await ToDoItem.findByPk(req.params.id);
 		res.json({ toDo });
 	})
 );
 
-// deletes to do
+// deletes to do item
 router.delete(
-	'/:todo_id/to-do/:id',
+	'/:project_id/to-do/item/:toDoId/:id',
 	// requireAuth,
 	asyncHandler(async (req, res) => {
-		const toDo = await ToDo.findByPk(req.params.id, {
-			attributes: [ 'id' ]
-		});
+		const toDo = await ToDoItem.findByPk(req.params.id);
+		console.log(req.params.id);
+		console.log(toDo);
 		await toDo.destroy();
 		res.end();
 	})
