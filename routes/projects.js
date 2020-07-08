@@ -115,6 +115,22 @@ router.delete(
 	})
 );
 
+// routes for comments
+// gets all comments for specific message id
+router.get(
+	'/:project_id/messages/:message_id/comments',
+	// requireAuth,
+	asyncHandler(async (req, res) => {
+		const comments = await Comment.findAll({
+			where: {
+				messageId: req.params.message_id
+			},
+			order: [ [ 'updatedAt', 'DESC' ] ]
+		});
+		res.json({ comments });
+	})
+);
+
 // finds all todos
 router.get(
 	'/:id(\\d+)/to-do',
@@ -202,7 +218,7 @@ router.get(
 	})
 );
 
-// deletes to do
+// deletes to do item
 router.delete(
 	'/:project_id/to-do/item/:toDoId/:id',
 	// requireAuth,
