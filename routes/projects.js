@@ -182,6 +182,16 @@ router.get(
 	})
 );
 
+router.post(
+	'/:project_id/to-do/item/:id(\\d+)',
+	// requireAuth,
+	asyncHandler(async (req, res) => {
+		const item = await ToDoItem.create({ ...req.body });
+		console.log(item.toJSON());
+		res.status(201).json({ item });
+	})
+);
+
 // finds one specific to do
 router.get(
 	'/:todo_id/to-do/:id',
