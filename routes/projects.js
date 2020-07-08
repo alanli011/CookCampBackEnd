@@ -194,22 +194,22 @@ router.post(
 
 // finds one specific to do
 router.get(
-	'/:todo_id/to-do/:id',
+	'/:project_id/to-do/item/:toDoId/:id',
 	// requireAuth,
 	asyncHandler(async (req, res) => {
-		const toDo = await ToDo.findByPk(req.params.id);
+		const toDo = await ToDoItem.findByPk(req.params.id);
 		res.json({ toDo });
 	})
 );
 
 // deletes to do
 router.delete(
-	'/:todo_id/to-do/:id',
+	'/:project_id/to-do/item/:toDoId/:id',
 	// requireAuth,
 	asyncHandler(async (req, res) => {
-		const toDo = await ToDo.findByPk(req.params.id, {
-			attributes: [ 'id' ]
-		});
+		const toDo = await ToDoItem.findByPk(req.params.id);
+		console.log(req.params.id);
+		console.log(toDo);
 		await toDo.destroy();
 		res.end();
 	})
