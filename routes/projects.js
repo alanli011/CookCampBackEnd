@@ -4,6 +4,7 @@ const bcrypt = require('bcryptjs');
 const { User, Project, UserProject, Message, ToDo, Comment, ToDoItem } = require('../db/models');
 const { requireAuth } = require('../utils/auth.js');
 const Sequelize = require('sequelize');
+const { EmptyResultError } = require('sequelize');
 const Op = Sequelize.Op;
 
 const router = express.Router();
@@ -207,6 +208,7 @@ router.get(
 	})
 );
 
+// creates the item
 router.post(
 	'/:project_id/to-do/item/:id(\\d+)',
 	// requireAuth,
@@ -214,6 +216,24 @@ router.post(
 		const item = await ToDoItem.create({ ...req.body });
 		console.log(item.toJSON());
 		res.status(201).json({ item });
+	})
+);
+
+// updates completed state
+router.put(
+	'/:project_id/to-do/item/:toDoId/:id',
+	// requireAuth,
+	asyncHandler(async (req, res, next) => {
+		const item = await ToDoItem.findByPk(req.params.id);
+		if (item) {
+			await item.update({ ...req.body });
+			res.json({ item });
+		} else {
+			const error = new Error();
+			error.title = 'Item Not Found';
+			error.status = 404;
+			next(error);
+		}
 	})
 );
 
