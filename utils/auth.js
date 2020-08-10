@@ -28,6 +28,7 @@ const restoreUser = (req, res, next) => {
 	});
 };
 
+// middleware to verify the jwt
 const requireAuth = [ bearerToken(), restoreUser ];
 
 const getUserToken = (user) => {

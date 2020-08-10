@@ -9,12 +9,16 @@ const { getUserToken, requireAuth } = require('../utils/auth.js');
 //validate Password
 const router = express.Router();
 
+// helper function to handle validation of username on the backend
 const validateUsername = check('userName').exists({ checkFalsy: true }).withMessage('Please provide a username');
 
+// helper function to handle validation of email and password on the backend
 const validateEmailAndPassword = [
 	check('email').exists({ checkFalsy: true }).isEmail().withMessage('Please provide a valid email.'),
 	check('password').exists({ checkFalsy: true }).withMessage('Please provide a password.')
 ];
+
+// helper function to handle validation of password on the backend
 const validatePassword = [ check('password').exists({ checkFalsy: true }).withMessage('Please provide a password.') ];
 
 // create user
@@ -75,7 +79,7 @@ router.get(
 	})
 );
 
-// Gets one user
+// Gets one user with the following attributes
 router.get(
 	'/:id(\\d+)',
 	// requireAuth,

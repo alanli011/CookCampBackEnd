@@ -11,7 +11,10 @@ const projectsRouter = require('./routes/projects');
 
 const app = express();
 
+// morgan will allow log in the console what's happening
 app.use(morgan('dev'));
+
+//
 app.use(express.json());
 app.use(cors({ origin: true })); //change path to host-address when acquired
 
@@ -28,7 +31,6 @@ app.use((req, res, next) => {
 });
 
 // Custom error handlers.
-
 // Generic error handler.
 app.use((err, req, res, next) => {
 	res.status(err.status || 500);
