@@ -68,7 +68,7 @@ router.delete(
 
 // message board routes
 
-// finds all messages
+// finds all messages and order from the most recent update
 router.get(
 	'/:id(\\d+)/messages',
 	// requireAuth,
